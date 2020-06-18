@@ -1,7 +1,7 @@
 name: Scheduled create tag
 on:
   schedule:
-    - cron:  '40 * * * *'
+    - cron:  '0 * * * *'
 
 jobs:
   create-tag:
@@ -15,7 +15,7 @@ jobs:
             const ref = await github.git.getRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              re: 'heads/master',
+              ref: 'heads/master',
             })
             console.log(ref)
             github.git.createTag({
