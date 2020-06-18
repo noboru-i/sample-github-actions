@@ -1,7 +1,7 @@
 name: Scheduled create tag
 on:
   schedule:
-    - cron:  '50 * * * *'
+    - cron:  '20 * * * *'
 
 jobs:
   create-tag:
@@ -27,12 +27,12 @@ jobs:
               repo: context.repo.repo,
               ref: 'heads/master',
             });
-            console.log('ref=' + ref);
+            console.log('ref=' + JSON.stringify(ref));
             github.git.createTag({
               owner: context.repo.owner,
               repo: context.repo.repo,
               tag: 'sample-' + dateStr,
               message: 'sample message.',
-              object: ref.object.sha,
+              object: ref.sha,
               type: 'commit'
             });
