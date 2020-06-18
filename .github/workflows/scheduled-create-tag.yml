@@ -1,0 +1,28 @@
+name: Scheduled create tag
+on:
+  schedule:
+    - cron:  '20 * * * *'
+
+jobs:
+  create-tag:
+    name: Create tag
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v2
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const ref = github.git.getRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              re: 'master',
+            })
+            console.log(ref)
+            github.git.createTag({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              tag: 'sample-1',
+              message: 'sample message.',
+              object: ref.object.sha,
+              type: 'commit'
+            })
